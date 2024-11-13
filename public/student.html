@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Login</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2>Student Login</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+    
+
+    <div id="profile" class="mt-5" style="display: none;">
+        <h2 style="text-align: center;"><strong>Student Profile</strong></h2>
+        <h2><strong></strong> <span id="studentName"></span></h2>
+      
+        <div class="profile-container">
+          <!-- Left Column -->
+          <div class="profile-column">
+            
+            <p><strong>Date of Birth:</strong> <span id="studentDOB"></span></p>
+            <p><strong>Gender:</strong> <span id="studentGender"></span></p>
+            <p><strong>Nationality:</strong> <span id="studentNation"></span></p>
+            <p><strong>Father's Name:</strong> <span id="fatherName"></span></p>
+            <p><strong>Mother's Name:</strong> <span id="motherName"></span></p>
+            <p><strong>Address:</strong> <span id="address"></span></p>
+            <p><strong>City:</strong> <span id="city"></span></p>
+            <p><strong>State:</strong> <span id="state"></span></p>
+            <p><strong>Country:</strong> <span id="country"></span></p>
+            <p><strong>Aadhar:</strong> <span id="aadhar"></span></p>
+            <p><strong>Email:</strong> <span id="studentEmail"></span></p>
+          </div>
+      
+          <!-- Right Column -->
+          <div class="profile-column">
+            
+            <p><strong>Phone:</strong> <span id="studentPhone"></span></p>
+            <p><strong>PIN:</strong> <span id="pin"></span></p>
+            <p><strong>Education:</strong> <span id="education"></span></p>
+            <p><strong>Previous Education:</strong> <span id="previous"></span></p>
+            <p><strong>Skills:</strong> <span id="skills"></span></p>
+            <p><strong>Course:</strong> <span id="studentCourse"></span></p>
+            <p><strong>Time:</strong> <span id="time"></span></p>
+            <p><strong>Mode:</strong> <span id="mode"></span></p>
+            <p><strong>Fees:</strong> <span id="fees"></span></p>
+            <p><strong>Offer:</strong> <span id="offer"></span></p>
+            <p><strong>Duration:</strong> <span id="duration"></span></p>
+          </div>
+        </div>
+      </div>
+      <style>
+        #profile {
+  width: 80%;
+  margin: 0 auto;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.profile-column {
+  width: 48%;
+}
+
+.profile-column p {
+  margin: 5px 0;
+}
+
+      </style>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const email = document.getElementById('email').value;
+
+      try {
+        const response = await fetch('/student/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+
+        const student = await response.json();
+        
+        if (student.error) {
+          alert(student.error);
+        } else {
+          // Display student profile
+          document.getElementById('studentName').textContent = student.name || "N/A";
+          document.getElementById('studentDOB').textContent = student.DateofBirth || "N/A";
+          document.getElementById('studentGender').textContent = student.gender || "N/A";
+          document.getElementById('studentNation').textContent = student.nation || "N/A";
+          document.getElementById('fatherName').textContent = student.fatherName || "N/A";
+          document.getElementById('motherName').textContent = student.motherName || "N/A";
+          document.getElementById('address').textContent = student.address || "N/A";
+          document.getElementById('city').textContent = student.city || "N/A";
+          document.getElementById('state').textContent = student.state || "N/A";
+          document.getElementById('country').textContent = student.country || "N/A";
+          document.getElementById('aadhar').textContent = student.aadhar || "N/A";
+          document.getElementById('studentEmail').textContent = student.email;
+          document.getElementById('studentPhone').textContent = student.phone || "N/A";
+          document.getElementById('pin').textContent = student.pin || "N/A";
+          document.getElementById('education').textContent = student.education || "N/A";
+          document.getElementById('previous').textContent = student.previous || "N/A";
+          document.getElementById('skills').textContent = student.skills || "N/A";
+          document.getElementById('studentCourse').textContent = student.course || "N/A";
+          document.getElementById('time').textContent = student.time || "N/A";
+          document.getElementById('mode').textContent = student.mode || "N/A";
+          document.getElementById('fees').textContent = student.fees || "N/A";
+          document.getElementById('offer').textContent = student.offer || "N/A";
+          document.getElementById('duration').textContent = student.duration || "N/A";
+
+          document.getElementById('profile').style.display = 'block';
+        }
+      } catch (error) {
+        console.error("Error fetching student profile:", error);
+        alert("An error occurred while fetching your profile. Please try again.");
+      }
+    });
+  </script>
+</body>
+</html>
