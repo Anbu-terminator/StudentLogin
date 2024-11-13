@@ -1,7 +1,9 @@
 // server.js
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const path = require('path');
 const Student = require('./models/Student'); // Adjust path as needed
 
 const app = express();
@@ -15,6 +17,11 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 // Middleware
 app.use(bodyParser.json());
 app.use(express.static('public')); // Serve static files from the 'public' directory
+
+// Route to serve student.html on the root URL
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'student.html'));
+});
 
 // Login Route
 app.post('/student/login', async (req, res) => {
